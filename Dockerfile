@@ -1,6 +1,6 @@
 FROM mesosphere/aws-cli
 
-RUN apk -v --update add jq
+RUN apk -v --update add jq bash
 
 ADD ./scripts/aws-auth /bin
 
