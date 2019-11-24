@@ -16,8 +16,7 @@ if [ -z $PLUGIN_CREDENTIALS ]; then
     exit 1
 fi
 
-set -f # avoid globbing (expansion of *).
-aws_credentials=(${PLUGIN_CREDENTIALS//./ })
+IFS='.' read -ra aws_credentials <<< "$PLUGIN_CREDENTIALS"
 
 aws configure set aws_access_key_id "${aws_credentials[0]}"
 aws configure set aws_secret_access_key "${aws_credentials[1]}"
