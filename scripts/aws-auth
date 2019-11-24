@@ -11,7 +11,7 @@ if [ -z $PLUGIN_FILE ]; then
     PLUGIN_FILE=".env"
 fi
 
-if [ -z $PLUGIN_CREDENTIALS ]; then
+if ((${#PLUGIN_CREDENTIALS} < 10)); then
     echo "Error: please provide the credentials"
     exit 1
 fi
