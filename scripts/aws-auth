@@ -19,8 +19,8 @@ fi
 set -f # avoid globbing (expansion of *).
 aws_credentials=(${PLUGIN_CREDENTIALS//./ })
 
-aws configure set aws_access_key_id aws_credentials[0]
-aws configure set aws_secret_access_key aws_credentials[1]
+aws configure set aws_access_key_id "${aws_credentials[0]}"
+aws configure set aws_secret_access_key "${aws_credentials[1]}"
 
 echo "Assuming: ${PLUGIN_ROLE}"
 role_credentials=$(aws sts assume-role --role-arn ${PLUGIN_ROLE} --role-session-name=${DRONE_REPO_OWNER}-${DRONE_REPO_NAME})
@@ -29,6 +29,6 @@ AWS_ACCESS_KEY_ID=$(echo $role_credentials | jq -r '.Credentials.AccessKeyId')
 AWS_SECRET_ACCESS_KEY=$(echo $role_credentials | jq -r '.Credentials.SecretAccessKey')
 AWS_SESSION_TOKEN=$(echo $role_credentials | jq -r '.Credentials.SessionToken')
 
-echo "export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> ${PLUGIN_FILE}
-echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> ${PLUGIN_FILE}
-echo "export AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}" >> ${PLUGIN_FILE}
+echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> ${PLUGIN_FILE}
+echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> ${PLUGIN_FILE}
+echo "AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}" >> ${PLUGIN_FILE}
