@@ -12,23 +12,21 @@ ${aws_access_key_id}.${aws_secret_access_key}
 
 ```yaml
 kind: pipeline
-name: deploy
+name: main
 steps:
-  - get-aws-credentials:
+  - name: get-aws-credentials
     image: neemiasjnr/drone-aws-role-auth
-    role: arn:aws:iam::***:role/***
-    file: /env/.aws
-    credentials:
-      from_env: aws-credentials
+    settings:
+      role: "***"
+      file: .env
+      credentials:
+        from_env: aws_credentials
 
-  - plan-infra:
+  - name: plan-infra
     image: jmccann/drone-terraform:6.0-0.12.6
     role_arn_to_assume: "***"
     root_dir: terraform
-    volumes:
-      - name: credentials
-        path: /env
-    env-file: /env/.aws
+    env-file: .env
     actions:
       - validate
       - plan
@@ -36,8 +34,4 @@ steps:
       event: push
       branch:
         exclude: master
-
-volumes:
-  - name: credentials
-    temp: {}
 ```
