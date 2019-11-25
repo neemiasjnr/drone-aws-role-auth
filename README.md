@@ -31,7 +31,7 @@ steps:
   - name: get-aws-credentials
     image: nodefortytwo/drone-aws-role-auth
     settings:
-      role: "***"
+      role: arn:aws:iam::***:role/***
       file: .env
       credentials:
         from_env: aws_credentials
