@@ -32,7 +32,9 @@ steps:
     image: nodefortytwo/drone-aws-role-auth
     settings:
       role: arn:aws:iam::***:role/***
-      file: .env
+      file:
+        name: .env
+        format: dotenv
       credentials:
         from_env: aws_credentials
 ```
