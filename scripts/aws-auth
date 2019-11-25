@@ -11,22 +11,18 @@ if [ -z $PLUGIN_FILE ]; then
     PLUGIN_FILE=".env"
 fi
 
-if ((${#PLUGIN_CREDENTIALS} < 10)); then
-    echo "Error: please provide the credentials"
-    exit 1
+if ((${#PLUGIN_CREDENTIALS} > 10)); then
+    IFS='.' read -ra aws_credentials <<< "$PLUGIN_CREDENTIALS"
+    aws configure set aws_access_key_id "${aws_credentials[0]}"
+    aws configure set aws_secret_access_key "${aws_credentials[1]}"
 fi
 
-IFS='.' read -ra aws_credentials <<< "$PLUGIN_CREDENTIALS"
-
-aws configure set aws_access_key_id "${aws_credentials[0]}"
-aws configure set aws_secret_access_key "${aws_credentials[1]}"
-
 echo "Assuming: ${PLUGIN_ROLE}"
-role_credentials=$(aws sts assume-role --role-arn ${PLUGIN_ROLE} --role-session-name=${DRONE_REPO_OWNER}-${DRONE_REPO_NAME})
+CREDS=`aws sts assume-role --role-arn ${PLUGIN_ROLE} --role-session-name=${DRONE_REPO_OWNER}-${DRONE_REPO_NAME}`
 
-AWS_ACCESS_KEY_ID=$(echo $role_credentials | jq -r '.Credentials.AccessKeyId')
-AWS_SECRET_ACCESS_KEY=$(echo $role_credentials | jq -r '.Credentials.SecretAccessKey')
-AWS_SESSION_TOKEN=$(echo $role_credentials | jq -r '.Credentials.SessionToken')
+AWS_ACCESS_KEY_ID=$(echo $CREDS | jq -r '.Credentials.AccessKeyId')
+AWS_SECRET_ACCESS_KEY=$(echo $CREDS | jq -r '.Credentials.SecretAccessKey')
+AWS_SESSION_TOKEN=$(echo $CREDS | jq -r '.Credentials.SessionToken')
 
 echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> ${PLUGIN_FILE}
 echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> ${PLUGIN_FILE}
