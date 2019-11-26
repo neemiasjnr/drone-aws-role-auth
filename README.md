@@ -23,14 +23,13 @@ Default: sh
 
 #### plugin_credentials (optional)
 
-Use the admin credentials as Drone Secrets and pass the PLUGIN_CREDENTIALS as environment variable.
-The secret should be saved using this pattern:
+Save a env variable on Drone Secrets containing the credentials to generate the session tokens. The secret should be saved using this pattern:
 
 ```
 AWS_ACCESS_KEY_ID.AWS_SECRET_ACCESS_KEY
 ```
 
-This is useful for open souce projects that uses Cloud Drone, and you don't have the option of saving the /.aws/credentials file hosted on machine.
+This is useful for open souce projects that uses Cloud Drone, and you can't save the /.aws/credentials file on the hosted machine.
 
 ## Drone configuration examples
 
@@ -50,7 +49,7 @@ pipeline:
     file_format: sh
 ```
 
-## Passing the credentials from Drone Secrets
+### Passing the credentials from Drone Secrets
 
 ```yaml
 pipeline:
