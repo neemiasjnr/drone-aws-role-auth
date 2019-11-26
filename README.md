@@ -2,22 +2,26 @@
 
 ## Usage
 
-#### PARAM role
+### Parameters
+
+#### role
 
 The IAM role you created with admin access
 
-#### PARAM file
+#### file
 
 The name of the file that will contain the session credentials
 
-#### PARAM file_format
+#### file_format
 
 Default: sh
 
 - sh: it will contain export before the variables to be used with **source** command
 - dotenv: it will save as a dotenv file to be used for example by [godotenv](https://github.com/joho/godotenv)
 
-#### ENV plugin_credentials (optional)
+### Environment Variables
+
+#### plugin_credentials (optional)
 
 Use the admin credentials as Drone Secrets and pass the PLUGIN_CREDENTIALS as environment variable.
 The secret should be saved using this pattern:
