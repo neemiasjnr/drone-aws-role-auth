@@ -16,8 +16,8 @@ The name of the file that will contain the session credentials
 
 Default: sh
 
-- sh: it will contain export before the variables to be used with **source** command
-- dotenv: it will save as a dotenv file to be used for example by [godotenv](https://github.com/joho/godotenv)
+- sh: save with **export** before the variables to be used with **source** command
+- dotenv: save as dotenv format to be loaded by [godotenv](https://github.com/joho/godotenv) or [dotenv](https://www.npmjs.com/package/dotenv)
 
 ### Environment Variables
 
